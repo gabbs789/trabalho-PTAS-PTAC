@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../src/app'); 
 
-
 describe('Testes de Login', () => {
   it('Deve logar com sucesso com credenciais válidas', async () => {
     const res = await request(app)
