@@ -8,7 +8,9 @@
   "prisma:init": "npx prisma init",
   "prisma:migrate": "npx prisma migrate dev --name init",
   "prisma:studio": "npx prisma studio",
-  "seed": "node prisma/seed.js"},
+  "seed": "node prisma/seed.js",
+  "test": "jest"
+},
 
   "keywords": [],
   "author": "",
