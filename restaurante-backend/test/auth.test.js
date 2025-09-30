@@ -68,3 +68,45 @@ describe('Testes de Login', () => {
     expect(res.body.erro).toBe(true);
   });
 });
+
+
+
+describe('Testes de Cadastro', () => {
+  it('Deve cadastrar com sucesso com dados válidos', async () => {
+    const email = `novo_${Date.now()}@example.com`;
+
+    const res = await request(app)
+      .post('/auth/cadastro')
+      .send({ nome: 'Novo', email, password: '123456' });
+
+    expect([200, 201]).toContain(res.statusCode);
+    expect(res.body.erro).toBe(false);
+    expect(res.body.token).toBeDefined();
+  });
+
+  it('Deve falhar ao cadastrar com campos incompletos', async () => {
+    const res = await request(app)
+      .post('/auth/cadastro')
+      .send({ nome: 'Incompleto', email: 'incompleto@example.com' }); 
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.erro).toBe(true);
+  });
+
+  it('Deve falhar ao cadastrar com email duplicado', async () => {
+    const email = `dup_${Date.now()}@example.com`;
+
+    const res1 = await request(app)
+      .post('/auth/cadastro')
+      .send({ nome: 'Dup', email, password: '123456' });
+
+    expect([200, 201]).toContain(res1.statusCode);
+
+    const res2 = await request(app)
+      .post('/auth/cadastro')
+      .send({ nome: 'Dup2', email, password: '123456' });
+
+    expect([409, 400]).toContain(res2.statusCode);
+    expect(res2.body.erro).toBe(true);
+  });
+});
