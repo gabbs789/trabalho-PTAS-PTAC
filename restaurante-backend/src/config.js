@@ -1,9 +1,9 @@
-// Configuração de ambiente
+
 require('dotenv').config({
   path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
 });
 
-// Configurações padrão para teste
+
 if (process.env.NODE_ENV === 'test') {
   process.env.DATABASE_URL = process.env.DATABASE_URL || 'file:./prisma/test.db';
   process.env.JWT_SECRET = process.env.JWT_SECRET || 'segredo_de_teste';

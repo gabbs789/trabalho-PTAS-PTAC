@@ -1,10 +1,10 @@
-// src/middleware/controller/controller.js
+
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Model conforme seu schema.prisma (model Usuario { ... } => prisma.usuario)
+
 const model = prisma.usuario;
 
 function generateToken(user) {
@@ -23,7 +23,7 @@ function generateToken(user) {
   );
 }
 
-// POST /auth/cadastro
+
 exports.register = async (req, res) => {
   try {
     const { nome, email, password } = req.body;
@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
       token
     });
   } catch (err) {
-    // Trata violação de unique do Prisma também
+    
     if (err.code === 'P2002' && err.meta?.target?.includes('email')) {
       return res.status(409).json({ mensagem: 'Email já cadastrado', erro: true });
     }
@@ -57,7 +57,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// POST /auth/login
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,7 +66,7 @@ exports.login = async (req, res) => {
 
     const user = await model.findUnique({ where: { email } });
     if (!user) {
-      // 401 para credenciais inválidas
+    
       return res.status(401).json({ mensagem: 'Usuário não encontrado', erro: true });
     }
 
@@ -88,7 +87,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// GET /auth/profile
+
 exports.profile = async (req, res) => {
   try {
     const user = await model.findUnique({
@@ -107,7 +106,7 @@ exports.profile = async (req, res) => {
   }
 };
 
-// PUT /auth/profile
+
 exports.updateProfile = async (req, res) => {
   try {
     const { nome, email, password } = req.body;

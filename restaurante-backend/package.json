@@ -1,24 +1,25 @@
 {
   "name": "restaurante-backend",
   "version": "1.0.0",
+  "description": "API do sistema de Reserva de Mesas do Restaurante - MVC + Prisma",
   "main": "index.js",
- "scripts": {
-  "dev": "nodemon src/index.js",
-  "start": "node src/index.js",
-  "prisma:init": "npx prisma init",
-  "prisma:migrate": "npx prisma migrate dev --name init",
-  "prisma:studio": "npx prisma studio",
-  "seed": "node prisma/seed.js",
-  "test": "cross-env NODE_ENV=test jest"
- 
-
-
-},
-
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "db:push": "npx prisma db push",
+    "db:migrate": "npx prisma migrate dev --name init",
+    "db:studio": "npx prisma studio",
+    "seed": "node prisma/seed.js",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:ci": "cross-env NODE_ENV=test jest --runInBand"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": false
+  },
   "dependencies": {
     "@prisma/client": "^6.16.2",
     "bcryptjs": "^3.0.2",
@@ -28,7 +29,10 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.10",
-    "prisma": "^6.16.2"
+    "prisma": "^6.16.2",
+    "supertest": "^7.0.0"
   }
 }

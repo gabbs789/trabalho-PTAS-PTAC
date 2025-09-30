@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const userController = require('../middleware/controller/controller'); 
+const userController = require('../../prisma/controller/controller');
 const authMiddleware = require('../middleware/middleware');
 
 router.post('/auth/cadastro', userController.register);
