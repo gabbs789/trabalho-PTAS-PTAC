@@ -9,7 +9,10 @@
   "prisma:migrate": "npx prisma migrate dev --name init",
   "prisma:studio": "npx prisma studio",
   "seed": "node prisma/seed.js",
-  "test": "jest"
+  "test": "cross-env NODE_ENV=test jest"
+ 
+
+
 },
 
   "keywords": [],
