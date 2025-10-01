@@ -1,6 +1,6 @@
 const path = require('path');
 
-// Configurar ambiente de teste - RECRIADO DO ZERO
+
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'segredo_de_teste';
 process.env.DATABASE_URL = process.env.DATABASE_URL || `file:${path.join(__dirname, '..', 'prisma', 'test.db').replace(/\\/g, '/')}`;
@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 
 const model = prisma.usuario;
 
-// Garante que o schema do Prisma esteja aplicado ao banco de teste
+
 const cp = require('child_process');
 beforeAll(() => {
   const env = { ...process.env, DATABASE_URL: process.env.DATABASE_URL };
