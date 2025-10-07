@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const gerarToken = (u) => jwt.sign({ userId: u.id }, process.env.JWT_SECRET || 'segredo', { expiresIn: '1d' });
 
-// POST /auth/cadastro
+
 exports.cadastrar = async (req, res) => {
   const { nome, email, password } = req.body;
   if (!nome || !email || !password) return res.status(400).json({ mensagem: 'Dados inválidos', erro: true });
@@ -17,7 +17,7 @@ exports.cadastrar = async (req, res) => {
   return res.status(201).json({ mensagem: 'OK', erro: false, token: gerarToken(user) });
 };
 
-// POST /auth/login
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ mensagem: 'Dados inválidos', erro: true });
