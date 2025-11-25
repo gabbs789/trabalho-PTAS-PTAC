@@ -25,12 +25,7 @@ Body (JSON):
 }
 
 
-O retorno será um token JWT.
-Testes de perfil
-Método: GET
-URL: http://localhost:4000/auth/profile
-Headers:
-Authorization: Bearer <seu_token_jwt>
+
 
 
 Atualizar perfil
@@ -41,3 +36,6 @@ Body (JSON):
 {
   "nome": "Novo Nome"
 }
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2MTI2NTc3MCwiZXhwIjoxNzYxMzUyMTcwfQ.RKEw1Fd4myMUrJfBzzIAbl7CFPiByt2GOrN49JJwy_E
