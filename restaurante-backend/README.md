@@ -43,8 +43,10 @@ npm start
 Servidor: http://localhost:4000
 
 ## Testes
+```bash
 npm test
 ```
+
 ## Rotas
 - Health e índice
   - GET /health
@@ -53,19 +55,6 @@ npm test
   - POST /cadastro (atalho)
   - POST /login (atalho)
   - POST /auth/cadastro
-
-## Mesas
-- POST /mesas/novo (admin + bearer token)
-  - body: { codigo, n_lugares }
-- GET /mesas
-- GET /mesas/disponibilidade?data=YYYY-MM-DD
-
-## Reservas
-- POST /reservas/novo (login required)
-  - body: { data: 'YYYY-MM-DD', n_pessoas, mesaId }
-- POST /reservas (login) — retorna apenas minhas reservas
-- DELETE /reservas (login, dono) — body { reservaId }
-- GET /reservas/list (login + admin) — opcional query ?data=YYYY-MM-DD
     - body: { nome, email, password }
     - resp: { mensagem, erro, token? }
   - POST /auth/login

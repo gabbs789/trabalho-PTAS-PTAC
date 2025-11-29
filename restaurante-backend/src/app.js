@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Endpoints auxiliares para facilitar testes no Thunder Client
+
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.get('/', (req, res) =>
@@ -28,13 +28,13 @@ app.get('/', (req, res) =>
   })
 );
 
-// Disponibiliza as rotas também na raiz para facilitar uso no Thunder Client
+ 
 app.use(routes);
 app.use('/auth', routes);
 
-// Rotas de Mesas
+
 app.use('/mesas', mesasRouter);
-// Rotas de reservas
+
 app.use('/reservas', reservasRouter);
 
 module.exports = app;

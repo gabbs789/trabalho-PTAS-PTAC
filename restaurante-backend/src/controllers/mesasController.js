@@ -1,10 +1,9 @@
 const prisma = require('../prisma');
 
-// Cria uma nova mesa
-// Body esperado: { codigo: string, n_lugares: number }
+
 exports.criar = async (req, res) => {
   try {
-    // exige autenticacao e que o usuario seja admin
+    
     const userId = req.userId;
     if (!userId) return res.status(401).json({ erro: true, mensagem: 'Token não enviado' });
 
@@ -42,8 +41,7 @@ exports.listar = async (req, res) => {
   }
 };
 
-// Disponibilidade simples baseada na existência de reservas na mesma data/hora
-// GET /mesas/disponibilidade?data=2025-11-30T19:00:00Z&n_pessoas=4
+
 exports.disponibilidade = async (req, res) => {
   try {
     const { data, n_pessoas } = req.query;
@@ -52,17 +50,16 @@ exports.disponibilidade = async (req, res) => {
     const dt = new Date(data);
     if (isNaN(dt.getTime())) return res.status(400).json({ erro: true, mensagem: 'Data inválida' });
 
-    // Filtrar mesas por capacidade (>= n_pessoas se informado)
     const capacidadeFiltro = n_pessoas ? { gte: Number(n_pessoas) } : undefined;
 
-    // Mesas ocupadas no mesmo timestamp
+  
     const ocupadas = await prisma.reserva.findMany({
       where: { data: dt },
       select: { mesaId: true }
     });
     const ocupadasIds = new Set(ocupadas.map((r) => r.mesaId));
 
-    // Pegar mesas elegíveis e remover ocupadas
+   
     const elegiveis = await prisma.mesa.findMany({
       where: {
         ...(capacidadeFiltro ? { n_lugares: capacidadeFiltro } : {})

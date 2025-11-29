@@ -1,6 +1,6 @@
 const prisma = require('../prisma');
 
-// Criar reserva: body { data: 'YYYY-MM-DD', n_pessoas, mesaId }
+
 exports.criar = async (req, res) => {
   try {
     const userId = req.userId;
@@ -12,17 +12,17 @@ exports.criar = async (req, res) => {
     const dt = new Date(data + 'T00:00:00.000Z');
     if (isNaN(dt.getTime())) return res.status(400).json({ erro: true, mensagem: 'Data inválida' });
 
-    // só hoje ou futuro
+
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
     if (dt < hoje) return res.status(400).json({ erro: true, mensagem: 'Data deve ser hoje ou futura' });
 
-    // mesa existe?
+   
     const mesa = await prisma.mesa.findUnique({ where: { id: Number(mesaId) } });
     if (!mesa) return res.status(404).json({ erro: true, mensagem: 'Mesa não encontrada' });
     if (Number(n_pessoas) > mesa.n_lugares) return res.status(400).json({ erro: true, mensagem: 'Número de pessoas maior que capacidade da mesa' });
 
-    // Verifica disponibilidade (mesma data exata)
+    
     const ocupada = await prisma.reserva.findUnique({ where: { data_mesaId: { data: dt, mesaId: Number(mesaId) } } }).catch(() => null);
     if (ocupada) return res.status(409).json({ erro: true, mensagem: 'Mesa já reservada para essa data' });
 
@@ -37,7 +37,7 @@ exports.criar = async (req, res) => {
   }
 };
 
-// Retorna apenas minhas reservas (com dados da mesa)
+
 exports.minhas = async (req, res) => {
   try {
     const userId = req.userId;
@@ -51,7 +51,7 @@ exports.minhas = async (req, res) => {
   }
 };
 
-// Deletar reserva (apenas dono) - body { reservaId }
+
 exports.deletar = async (req, res) => {
   try {
     const userId = req.userId;
@@ -64,7 +64,7 @@ exports.deletar = async (req, res) => {
     if (!reserva) return res.status(404).json({ erro: true, mensagem: 'Reserva não encontrada' });
     if (reserva.usuarioId !== userId) return res.status(403).json({ erro: true, mensagem: 'Acesso negado: não é dono da reserva' });
 
-    // só pode cancelar hoje ou futuro
+    
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
     const resDate = new Date(reserva.data);
@@ -79,7 +79,7 @@ exports.deletar = async (req, res) => {
   }
 };
 
-// GET /reservas/list (admin) -> query: ?data=YYYY-MM-DD
+
 exports.listarPorData = async (req, res) => {
   try {
     const userId = req.userId;
