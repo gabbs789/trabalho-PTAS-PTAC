@@ -25,8 +25,7 @@ exports.criar = async (req, res) => {
   }
 };
 
-// Lista mesas (com filtros opcionais)
-// Query: n_lugares (>=), codigo (igual)
+
 exports.listar = async (req, res) => {
   try {
     const { n_lugares, codigo } = req.query;
