@@ -39,24 +39,43 @@ Body (JSON):
 
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2MTI2NTc3MCwiZXhwIjoxNzYxMzUyMTcwfQ.RKEw1Fd4myMUrJfBzzIAbl7CFPiByt2GOrN49JJwy_ERotas:
-POST /mesas/novo (login + admin)
-Body: { codigo: string, n_lugares: int }
-Cria uma nova mesa.
-GET /mesas (público)
-Retorna todas as mesas cadastradas.
-GET /mesas/disponibilidade (público)
-Query/body: { data: “yyyy-mm-dd” }
-Retorna todas as mesas e, em cada mesa, as reservas daquela data (se houver).
-Como “Mesa” se integra ao restante exigido
-A rota de Reservar Mesa valida a disponibilidade da mesa para a data informada (só hoje ou futuro), usando as reservas associadas às mesas.
-As rotas de listagem de reservas trazem junto os dados das mesas relacionadas.
-Demais entregas do bimestre (resumo objetivo, conforme texto)
-Perfil:
-GET /perfil/ (login): retorna meu perfil sem senha.
-PATCH /perfil/ (login): atualiza apenas nome e email do próprio usuário.
-GET /perfil/todos (login + admin): retorna todos os usuários, sem senha.
-Reservas:
-POST /reservas/novo (login): { data “yyyy-mm-dd”, n_pessoas, mesaId }; só data atual/futura e mesa disponível.
-POST /reservas (login): retorna apenas minhas reservas com dados das mesas.
-DELETE /reservas (login + dono): { reservaId }; cancela somente hoje/futuro.
-GET /reservas/list (login + admin): { data }; retorna reservas da data com mesas e usuários.
+POST /auth/cadastro — body { nome, email, password }
+POST /auth/login — body { email, password } → retorna token
+GET /auth/profile — Header Authorization: Bearer <token>
+PUT /auth/profile — Header + body { nome, email, password? }
+(Endpoints esperados da documentação)
+
+POST /mesas/novo — admin — body { codigo, n_lugares }
+GET /mesas — público
+GET /mesas/disponibilidade?data=YYYY-MM-DD — público
+Exemplos:
+Criar mesa (admin, precisa do header Authorization: Bearer <token>):
+POST http://localhost:4000/mesas/novo
+Body: { "codigo": "A1", "n_lugares": 4 }
+
+Listar mesas (público):
+GET http://localhost:4000/mesas
+
+Disponibilidade por data (público):
+GET http://localhost:4000/mesas/disponibilidade?data=2025-11-30
+POST /reservas/novo — login — body { data, n_pessoas, mesaId }
+POST /reservas — login — retorna só suas reservas
+DELETE /reservas — login (dono) — body { reservaId }
+GET /reservas/list — admin — filtra por data
+Exemplos:
+Criar reserva (login):
+POST http://localhost:4000/reservas/novo
+Header: Authorization: Bearer <token>
+Body: { "data": "2025-11-30", "n_pessoas": 3, "mesaId": 1 }
+
+Listar minhas reservas (login):
+POST http://localhost:4000/reservas
+Header: Authorization: Bearer <token>
+
+Cancelar reserva (dono):
+DELETE http://localhost:4000/reservas
+Header: Authorization: Bearer <token>
+Body: { "reservaId": 123 }
+
+Listar reservas por data (admin):
+GET http://localhost:4000/reservas/list?data=2025-11-30

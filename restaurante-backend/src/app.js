@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes/routes'); 
+const mesasRouter = require('./routes/mesas');
+const reservasRouter = require('./routes/reservas');
 
 const app = express();
 
@@ -30,5 +32,9 @@ app.get('/', (req, res) =>
 app.use(routes);
 app.use('/auth', routes);
 
+// Rotas de Mesas
+app.use('/mesas', mesasRouter);
+// Rotas de reservas
+app.use('/reservas', reservasRouter);
 
 module.exports = app;
