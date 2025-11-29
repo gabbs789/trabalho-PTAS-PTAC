@@ -38,4 +38,25 @@ Body (JSON):
 }
 
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2MTI2NTc3MCwiZXhwIjoxNzYxMzUyMTcwfQ.RKEw1Fd4myMUrJfBzzIAbl7CFPiByt2GOrN49JJwy_E
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc2MTI2NTc3MCwiZXhwIjoxNzYxMzUyMTcwfQ.RKEw1Fd4myMUrJfBzzIAbl7CFPiByt2GOrN49JJwy_ERotas:
+POST /mesas/novo (login + admin)
+Body: { codigo: string, n_lugares: int }
+Cria uma nova mesa.
+GET /mesas (público)
+Retorna todas as mesas cadastradas.
+GET /mesas/disponibilidade (público)
+Query/body: { data: “yyyy-mm-dd” }
+Retorna todas as mesas e, em cada mesa, as reservas daquela data (se houver).
+Como “Mesa” se integra ao restante exigido
+A rota de Reservar Mesa valida a disponibilidade da mesa para a data informada (só hoje ou futuro), usando as reservas associadas às mesas.
+As rotas de listagem de reservas trazem junto os dados das mesas relacionadas.
+Demais entregas do bimestre (resumo objetivo, conforme texto)
+Perfil:
+GET /perfil/ (login): retorna meu perfil sem senha.
+PATCH /perfil/ (login): atualiza apenas nome e email do próprio usuário.
+GET /perfil/todos (login + admin): retorna todos os usuários, sem senha.
+Reservas:
+POST /reservas/novo (login): { data “yyyy-mm-dd”, n_pessoas, mesaId }; só data atual/futura e mesa disponível.
+POST /reservas (login): retorna apenas minhas reservas com dados das mesas.
+DELETE /reservas (login + dono): { reservaId }; cancela somente hoje/futuro.
+GET /reservas/list (login + admin): { data }; retorna reservas da data com mesas e usuários.
